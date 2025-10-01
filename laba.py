@@ -61,13 +61,11 @@ class CustomNumber:
                 temp = 0
             result_digits.append(total)
 
-        while len(result_digits) > 1 and result_digits[-1] == 0:
-            result_digits.pop()
-
         res = CustomNumber("0")
         res.sign = 1
         res.digits = result_digits
-        res.length = len(result_digits)
+        res.strip_leading_zeros()
+        res.length = len(res.digits)
         return res
         
     def __mul__(self, other):
@@ -82,13 +80,11 @@ class CustomNumber:
             if temp > 0:
                 result_digits[i + other.length] += temp
 
-        while len(result_digits) > 1 and result_digits[-1] == 0:
-            result_digits.pop()
-
         res = CustomNumber("0")
         res.sign = self.sign * other.sign
         res.digits = result_digits
-        res.length = len(result_digits)
+        res.strip_leading_zeros()
+        res.length = len(res.digits)
         return res
     
     def __floordiv__(self, other):
@@ -174,35 +170,29 @@ class CustomNumber:
         return res
         
     def __mod__(self, other):
-        quotient = self // other
-        remainder = self - quotient * other
+        num = abs(self)
+        quotient = num // other
+        remainder = num - quotient * other
+        remainder.sign = self.sign
         return remainder
     
-# a = CustomNumber("123")
-# b = CustomNumber("45")
-# c = CustomNumber("-77")
-# d = CustomNumber("100")
+a = CustomNumber("123")
+b = CustomNumber("45")
+c = CustomNumber("-77")
+d = CustomNumber("100")
 
-# print("№ | Decimal numbers | Binary numbers")
-# print(f"a | {a.to_decimal()} | {a.to_binary()}")
-# print(f"b | {b.to_decimal()} | {b.to_binary()}")
-# print(f"c | {c.to_decimal()} | {c.to_binary()}")
-# print(f"d | {d.to_decimal()} | {d.to_binary()}")
-# print()
+print("№ | Decimal numbers | Binary numbers")
+print(f"a | {a.to_decimal()} | {a.to_binary()}")
+print(f"b | {b.to_decimal()} | {b.to_binary()}")
+print(f"c | {c.to_decimal()} | {c.to_binary()}")
+print(f"d | {d.to_decimal()} | {d.to_binary()}")
+print()
 
-# print("Arithmetic")
-# print("a + b = ", (a + b).to_decimal())
-# print("a + c = ", (a + c).to_decimal())
-# print("a - b = ", (a - b).to_decimal())
-# print("b - a = ", (b - a).to_decimal())
-# print("a * b = ", (a * b).to_decimal())
-# print("d // b = ", (d // b).to_decimal())
-# print("d % b = ", (d % b).to_decimal())
-
-a = CustomNumber("-77")
-b = CustomNumber("2")
-c = CustomNumber("-38")
-print("-77 // 2 = ", (a // b).to_decimal())
-print("-38 * 2 = ", (c * b).to_decimal())
-d = CustomNumber((c * b).to_decimal())
-print("-77 - (-38 * 2) = ", (a - d).to_decimal())
+print("Arithmetic")
+print("a + b = ", (a + b).to_decimal())
+print("a + c = ", (a + c).to_decimal())
+print("a - b = ", (a - b).to_decimal())
+print("b - a = ", (b - a).to_decimal())
+print("a * b = ", (a * b).to_decimal())
+print("d // b = ", (d // b).to_decimal())
+print("d % b = ", (d % b).to_decimal())
